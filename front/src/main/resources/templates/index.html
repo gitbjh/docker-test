@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>카운트 증가</title>
+</head>
+<body>
+    <h1>카운트: <span th:text="${count}"></span></h1>
+    <form method="post" action="/inc1">
+        <button type="submit">+1 증가</button>
+    </form>
+    <form method="post" action="/inc2">
+        <button type="submit">+2 증가</button>
+    </form>
+</body>
+</html> 
