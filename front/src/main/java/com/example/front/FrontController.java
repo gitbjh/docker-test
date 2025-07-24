@@ -8,7 +8,8 @@ import org.springframework.web.client.RestTemplate;
 
 @Controller
 public class FrontController {
-    private final String apiUrl = "http://api:8080/api/count";
+    @Value("${api.url}")
+    private String apiUrl;
     private final RestTemplate restTemplate = new RestTemplate();
 
     @GetMapping("/")
