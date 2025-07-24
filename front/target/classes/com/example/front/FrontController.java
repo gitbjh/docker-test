@@ -20,13 +20,13 @@ public class FrontController {
         return "index";
     }
 
-    @PostMapping("/inc1")
+    @PostMapping("/inc1") // 카운트 1 증가
     public String inc1() {
         restTemplate.postForObject(apiUrl + "/inc1", null, Integer.class);
         return "redirect:/";
     }
 
-    @PostMapping("/inc2")
+    @PostMapping("/inc2") // 카운트 2 증가
     public String inc2() {
         restTemplate.postForObject(apiUrl + "/inc2", null, Integer.class);
         return "redirect:/";
