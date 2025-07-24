@@ -20,6 +20,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
+
             # 커스텀 네트워크 생성 (이미 있으면 에러 무시)
             docker network create mynet || true
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/api-server:latest
@@ -31,6 +32,9 @@ jobs:
             docker rm api-server || true
             docker rm front-server || true
             docker rm db || true
+
+            docker run -d --name api-server -p 8081:8080 ${{ secrets.DOCKERHUB_USERNAME }}/api-server:latest
+            docker run -d --name front-server -p 8080:3000 ${{ secrets.DOCKERHUB_USERNAME }}/front-server:latest 
             docker run -d --name db --network mynet \
               -e MYSQL_ROOT_PASSWORD=rootpw \
               -e MYSQL_DATABASE=countdb \
