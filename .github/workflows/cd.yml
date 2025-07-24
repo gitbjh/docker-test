@@ -30,4 +30,4 @@ jobs:
             docker rm api-server || true
             docker rm front-server || true
             docker run -d --name api-server -p 8081:8080 ${{ secrets.DOCKERHUB_USERNAME }}/api-server:latest
-            docker run -d --name front-server -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/front-server:latest 
+            docker run -d --name front-server -p 8080:3000 ${{ secrets.DOCKERHUB_USERNAME }}/front-server:latest 
