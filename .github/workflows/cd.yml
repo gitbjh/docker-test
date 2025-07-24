@@ -1,0 +1,33 @@
+name: CD
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/api-server:latest
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/front-server:latest
+            docker stop api-server || true
+            docker stop front-server || true
+            docker rm api-server || true
+            docker rm front-server || true
+            docker run -d --name api-server -p 8081:8080 ${{ secrets.DOCKERHUB_USERNAME }}/api-server:latest
+            docker run -d --name front-server -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/front-server:latest 
