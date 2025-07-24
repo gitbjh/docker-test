@@ -23,9 +23,19 @@ jobs:
           script: |
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/api-server:latest
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/front-server:latest
+            docker pull mysql:8.0
             docker stop api-server || true
             docker stop front-server || true
+            docker stop db || true
             docker rm api-server || true
             docker rm front-server || true
+            docker rm db || true
             docker run -d --name api-server -p 8081:8080 ${{ secrets.DOCKERHUB_USERNAME }}/api-server:latest
             docker run -d --name front-server -p 8080:3000 ${{ secrets.DOCKERHUB_USERNAME }}/front-server:latest 
+            docker run -d --name db \
+              -e MYSQL_ROOT_PASSWORD=rootpw \
+              -e MYSQL_DATABASE=countdb \
+              -e MYSQL_USER=countuser \
+              -e MYSQL_PASSWORD=countpw \
+              -p 3306:3306 \
+              mysql:8.0 
