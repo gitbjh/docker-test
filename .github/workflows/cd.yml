@@ -33,8 +33,6 @@ jobs:
             docker rm front-server || true
             docker rm db || true
 
-            docker run -d --name api-server -p 8081:8080 ${{ secrets.DOCKERHUB_USERNAME }}/api-server:latest
-            docker run -d --name front-server -p 8080:3000 ${{ secrets.DOCKERHUB_USERNAME }}/front-server:latest 
             docker run -d --name db --network mynet \
               -e MYSQL_ROOT_PASSWORD=rootpw \
               -e MYSQL_DATABASE=countdb \
