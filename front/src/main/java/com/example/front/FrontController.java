@@ -8,6 +8,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.beans.factory.annotation.Value;
 
 @Controller
+// controller
 public class FrontController {
     @Value("${api.url}")
     private String apiUrl;
